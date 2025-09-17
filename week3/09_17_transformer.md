@@ -1,4 +1,4 @@
-# 9_17 Transformer
+# 9_17 RNN
 
 ## RNN
 
