@@ -61,6 +61,17 @@ Resnet의 residual처럼 생각하면 될 것 같다.
 
 ## Seq2Seq
 
+<img width="1055" height="586" alt="image" src="https://github.com/user-attachments/assets/12b9677a-2755-4ca2-bdef-ae83298a319d" />
+
+
+RNN을 인코더 - 디코더 구조로 만든다.
+
+인코더 RNN에서 y를 뱉는 대신에, 마지막 hidden state를 디코더의 input vector로 사용한다!
+
+디코더 RNN 는 이 hiddent state를 첫번째 hidden state로 받아, [<SOS>: 시작 토큰]을 첫 input으로 넣고 output을 뱉고 그 뱉은 output을 다시 input으로 사용한다. "EOS" 토큰이 나올 떄까지 반복한다.
+
+이때, 완전히 정보를 주지 않으면 학습이 제대로 진행되지 않기 때문에, 학습 시에는 output을 다시 input으로 넣지 않고, "정답"을 input으로 넣어 준다.(Teacher Forcing)
+
 ## Attention
 
 ## Transformer
