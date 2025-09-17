@@ -46,6 +46,8 @@ Vanishing Gradient가 사라짐을 보장하지는 않는다. 하지만, 적어�
 
 <img width="1055" height="586" alt="image" src="https://github.com/user-attachments/assets/27a627c1-231c-416d-a18b-b67f21de9383" />
 
+https://en.wikipedia.org/wiki/Long_short-term_memory
+
 LSTM은 long-term으로 기억하는 Cell state를 추가했다. Cell state는 FC를 통과하며 업데이트되지 않는다.
 
 가장 왼쪽의 sigmoid를 통과한 X가 Forget gate로, 얼마나 이전의 cell state를 기억할지를 결정한다. 
@@ -61,8 +63,9 @@ Resnet의 residual처럼 생각하면 될 것 같다.
 
 ## Seq2Seq
 
-<img width="1055" height="586" alt="image" src="https://github.com/user-attachments/assets/12b9677a-2755-4ca2-bdef-ae83298a319d" />
+<img width="1548" height="763" alt="image" src="https://github.com/user-attachments/assets/32990dd0-a479-41f3-8da8-186d1fbd2d34" />
 
+https://medium.com/data-science/sequence-to-sequence-model-introduction-and-concepts-44d9b41cd42d
 
 RNN을 인코더 - 디코더 구조로 만든다.
 
