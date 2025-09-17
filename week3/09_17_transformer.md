@@ -44,6 +44,8 @@ Vanishing Gradient가 사라짐을 보장하지는 않는다. 하지만, 적어�
 
 ### LSTM
 
+<img width="1055" height="586" alt="image" src="https://github.com/user-attachments/assets/27a627c1-231c-416d-a18b-b67f21de9383" />
+
 ### GRU
 
 ## Seq2Seq
