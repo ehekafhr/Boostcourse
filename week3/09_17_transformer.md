@@ -46,7 +46,18 @@ Vanishing Gradient가 사라짐을 보장하지는 않는다. 하지만, 적어�
 
 <img width="1055" height="586" alt="image" src="https://github.com/user-attachments/assets/27a627c1-231c-416d-a18b-b67f21de9383" />
 
-### GRU
+LSTM은 long-term으로 기억하는 Cell state를 추가했다. Cell state는 FC를 통과하며 업데이트되지 않는다.
+
+가장 왼쪽의 sigmoid를 통과한 X가 Forget gate로, 얼마나 이전의 cell state를 기억할지를 결정한다. 
+
+tanh 게이트와 2번째 sigmoid를 통과한 값을 곱하는 것을 input gate로, 이것과 
+
+마지막으로는 cell state와 무관한 값을 넣어주기 위해 sigmoid를 취해 Output gate로 사용하여,
+
+cell state를 input gate 값과 더해 update하고 이를 tanh 게이트로 넘겨 Output gate로 곱해 $h_t$ 를 업데이트하고 output을 뱉는다.
+
+Resnet의 residual처럼 생각하면 될 것 같다.
+
 
 ## Seq2Seq
 
