@@ -94,4 +94,31 @@ source: Stanford CS 224n
 
 ## Bert( Bidirectional Encoder Representations from Transformers )
 
+Transformer encoder를 활용하여, word embedding을 위한 pre-training을 해 준 모델이다.
+
+비지도학습(Self-superviesd). 빈 칸 채우기 문제, 
+
+<img width="1088" height="345" alt="image" src="https://github.com/user-attachments/assets/98f6f0a7-b9b6-48d8-9a5f-76d12163d652" />
+https://arxiv.org/pdf/1810.04805
+
+Bert model이다. 기존의 Embedding에, Segment Embedding이 추가되었다. 이것은 위치에 더해서 어떤 문장에 속해 있는지를 말해 준다.
+
+<img width="1685" height="692" alt="image" src="https://github.com/user-attachments/assets/df274fa8-55bd-4e79-942d-218b73dca5d7" />
+
+BERT는 이미 많은 데이터를 통해, 마스킹된 빈 칸을 채우는 학습을 진행하였다.
+
+이런 PRE-TRAINED MODEL을 다른 TASK에 사용하기 위해, 그보다 적은 데이터로 FINE-TUNING만 해 주면 된다!*한국어는 복잡해서 한국어 버전이 따로 존재한다..
+
+단어를 embedding해줄 때는 기본적으로 BERT를 사용한다.
+
 ## ViT
+
+이미지를 작은 패치 단위로(같은 크기의) Transformer에 넣는다. 똑같이 positional embedding으로, 비슷한 위치의 값은 비슷한 positional embedding이 들어간다.
+
+분류 모델의 경우 위와 같이 단순히 CLS 토큰 위에 MLP line을 추가해 준다.
+
+생각보다 잘 동작한다.. 하지만 "큰 Dataset"이어야만 한다. 
+
+공간적 근접성 등을 활용하지 않고, 데이터에서만 특성을 학습해야 하기 때문에 CNN보다 많은 데이터를 필요로 한다.
+
+하지만, locality를 넘어설 정도의 학습 데이터를 제공하면 CNN보다 성능이 높게 나온다.
