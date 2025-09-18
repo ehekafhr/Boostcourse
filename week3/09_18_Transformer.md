@@ -28,6 +28,10 @@ Attention 모델, Transformer 등에서는 Key와 Value가 같다. (Attention에
 
 이렇게 계산한 Attention Value를 원래 vector에 concat해준 뒤 output(next input)을 계산한다.
 
+<img width="953" height="740" alt="image" src="https://github.com/user-attachments/assets/05c4c0ff-0f02-4da5-a867-763e60160c62" />
+
+https://en.wikipedia.org/wiki/Seq2seq
+
 <img width="655" height="579" alt="image" src="https://github.com/user-attachments/assets/02b56c59-d316-459b-9fc5-9f736310dbc9" />
 https://www.tensorflow.org/tutorials/text/nmt_with_attention?hl=ko
 
