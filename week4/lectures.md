@@ -53,3 +53,83 @@ Text - to - texture: 텍스쳐 입히기
 3D human: 사람 모델링
 
 # CV의 발전사
+
+## CNN
+
+linear layer의 경우.. 모든 픽셀이 레이어를 통과해야 해서 엄청나게 많은 연산량을 필요로 한다!
+
+게다가, 이러한 linear layer는 하나의 이미지 맵을 형성하게 되는데, 그렇다는 것은 이미지가 돌아가거나, 옆으로 이동하거나 하는 등의 문제에 robust하지 못하다는 문제도 갖고 있다.
+
+그렇기 때문에, kernel을 layer로 사용해 convolution(사실은 correlation이다!) 연산을 해 feature map을 추출하는 모델을 CNN이라고 한다.
+
+물론, CNN layer의 끝에는 똑같이 NN을 단다.(classification을 위해!)
+
+이러한 CNN의 발전은, 더 깊어지고, 더 커지는 방향으로 이루어졌다. 
+
+AlexNet의 경우.. 1.2million이라는 거대한 데이터를 활용하여, 6천만 개의 파라미터를 가진다!
+
+발전 과정에서, cnn뿐만 아니라 다른 곳에서 적용된 방법으로 dropout, ReLU 함수 등이 사용되게 되었다.
+
+### Receptive Field
+
+한 픽셀이 담고 있는, 이전 이미지의 범위이다. 즉, 한 픽셀의 표현력을 의미한다. $(P+K-1) \times (P+K-1)$ 로 계산된다. P는 pooling layer(pixel P개를 합친다, max 등등의 방식으로), K는 kernel(convolution으로 곱해지는 layer)의 크기이다. 
+
+### VGGNet
+
+엄청 큰 모델이다! local response normalization을 지우고(특정 채널의 값이 커지는 것을 방지하는 normalization), 
+3 $\times$ 3 convolution filters block과 2 $\times$ 2 max pooling layer를 깊게 쌓았다.
+
+아직도 쓴다. 그 자체를 모델로 쓰지는 않고.. perceptual loss를 계산하는 곳에.
+
+### Residual - ResNet
+
+deeper하게 쌓으면.. Vanishing/exploding gradient 문제가 발생한다. 이를 leaky ReLU 등으로 어느 정도 해결해도,
+
+"Overfitting"하게 되는 문제가 발생하게 되는 것으로 예전 사람들이 착각했다.
+
+<img width="1526" height="573" alt="image" src="https://github.com/user-attachments/assets/3cc2e385-6c2c-4ea9-8206-3ad8f347e57a" />
+
+하지만 이 그림에서 알 수 있듯이, 깊은 레이어가 overfitting된다기보단 그냥 못한다! overfitting되려면 training에서는 훨씬 잘했어야 한다.
+
+그래서 이 문제가 Overfitting이 아니라 degradation 문제라는 것을 알게 되었다.
+
+F(x) 대신 F(x) + x 를 통해, 레이어를 통과하지 않는 값들을 레이어를 통과한 값에 더해 준다.
+
+그렇게 하면, backpropagation에서 "함수를 통과하지 않은, identity 값"이 backpropagate된다! 이를 통해 vanishing gradient 문제도 해결하였다.
+
+이런 방식을 사용한 것이 ResNet이다.
+
+## Transformer
+
+이전 강의에서 다루었지만, Computer vision에서도 이 모델을 쓴다!
+
+### 기원
+
+RNN에서, Long-term dependency와 vanishing gradient 문제를 해결하기 위해 나온 모델이다.
+
+Self-Attention을 통해 연관성을 학습하고, 이 값을 디코더에 넣어 결과를 뱉는 모델이다.
+
+<img width="496" height="749" alt="image" src="https://github.com/user-attachments/assets/ce5d31db-922f-4356-9dbd-132dbd2df5f7" />
+
+여기에 Positional encoding을 통해 (sin, cos를 이용) 순서 정보까지 넣어 주는 모델이다.
+
+### ViT
+
+이 모델이, 놀랍게도 사이즈가 크기만 하면 Computer Vision에서도 잘 먹힌다!
+
+<img width="1024" height="539" alt="image" src="https://github.com/user-attachments/assets/01a3f803-aba1-47c2-8eca-2ef747f1788c" />
+
+먼저 이미지들을 Patch로 자르고, positional "1D embedding"을 붙혀 주어 Transformer에 넣어 준다. (맨 앞에는 cls 토큰, output을 내뱉기 위함을 붙여 준다)
+Transformer의 Encoder 뒤에, cls 토큰 전용 MLP head를 달아서 Class로 분류하게 된다.
+
+이전 강의에서 다루었듯이, "큰 데이터"에 대해서는 CNN보다 잘 동작한다.
+
+#### Swin Transformer
+
+<img width="822" height="528" alt="image" src="https://github.com/user-attachments/assets/7d04f976-6232-4548-a02d-ab7446ec7200" />
+
+<img width="864" height="417" alt="image" src="https://github.com/user-attachments/assets/14b1467d-52b1-4c11-bf7e-1860c4dbe80e" />
+
+### MAE
+
+### DINO
