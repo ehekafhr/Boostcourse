@@ -138,6 +138,23 @@ Self-Attention의 연산량이 줄어들기 때문에, 총 연산량을 $O(n^2)$
 
 Window를 자르는 형태마다 다른 결과가 나올 수 있기 때문에, 여러 가지 결과를 얻기 위 레이어마다 window를 x,y 둘다 이동시켜 준다.
 
-### MAE
+### MAE : Masked Autoencoders
+
+Object: Masking Token들 만으로 빈 Token 부분 채우기.
+
+원본 이미지에서 75% 정도를 Masking하고, encoder - decoder 구조를 거쳐서 복구시키는 것을 학습시킨다. (self-supervised)
+
+Transformer는 Input data를 Masking하면 연산을 하지 않아(CNN의 경우에는 레이어 형태를 유지하기 때문에 연산이 줄어들지 않는다) Masking을 하게 되면 빠르게 연산이 가능하다는 장점이 추가되었다.
+
+Fine-tuning에서도 좋은 성능이 나온다.
 
 ### DINO
+
+<img width="657" height="605" alt="image" src="https://github.com/user-attachments/assets/3c5568ea-f856-4287-884d-b7015c247aa7" />
+
+
+Studnet - Teacher 구조로 이루어진다.
+
+Input $x$ 를 $x_1$ , $x_2$ 로 input을 나누어 student와 teacher가 output을 뽑고, teacher network(학습하지 않음)의 output을 따라가도록 student를 학습시킨다.
+
+그 후, exponential moving average를 통해 teacher를 학습시킨다. (어떤 hyperparameter l에 대해, teacher의 paramer을 (1-l), student의 parameter를 l만큼 moving-average로 계산해 준다)
