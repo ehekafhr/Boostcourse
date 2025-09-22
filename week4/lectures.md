@@ -122,13 +122,21 @@ Self-Attention을 통해 연관성을 학습하고, 이 값을 디코더에 넣�
 먼저 이미지들을 Patch로 자르고, positional "1D embedding"을 붙혀 주어 Transformer에 넣어 준다. (맨 앞에는 cls 토큰, output을 내뱉기 위함을 붙여 준다)
 Transformer의 Encoder 뒤에, cls 토큰 전용 MLP head를 달아서 Class로 분류하게 된다.
 
-이전 강의에서 다루었듯이, "큰 데이터"에 대해서는 CNN보다 잘 동작한다.
+이전 강의에서 다루었듯이, "큰 파라미터,  데이터"에 대해서는 CNN보다 잘 동작한다.
 
 #### Swin Transformer
 
 <img width="822" height="528" alt="image" src="https://github.com/user-attachments/assets/7d04f976-6232-4548-a02d-ab7446ec7200" />
 
+작은 블록(local window) 내에서만 Attention을 하는 식으로, 효율적으로 진행한다(계층적으로, 작은 이미지 패치에 대해 ViT를 적용하고 더 큰 것에 적용하는 식으로 반복한다.
+
+Self-Attention의 연산량이 줄어들기 때문에, 총 연산량을 $O(n^2)$ 에서 $O(n)$ 으로 획기적으로 줄인다.
+
+
+
 <img width="864" height="417" alt="image" src="https://github.com/user-attachments/assets/14b1467d-52b1-4c11-bf7e-1860c4dbe80e" />
+
+Window를 자르는 형태마다 다른 결과가 나올 수 있기 때문에, 여러 가지 결과를 얻기 위 레이어마다 window를 x,y 둘다 이동시켜 준다.
 
 ### MAE
 
