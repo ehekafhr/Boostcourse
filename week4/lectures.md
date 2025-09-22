@@ -157,4 +157,9 @@ Studnet - Teacher 구조로 이루어진다.
 
 Input $x$ 를 $x_1$ , $x_2$ 로 input을 나누어 student와 teacher가 output을 뽑고, teacher network(학습하지 않음)의 output을 따라가도록 student를 학습시킨다.
 
-그 후, exponential moving average를 통해 teacher를 학습시킨다. (어떤 hyperparameter l에 대해, teacher의 paramer을 (1-l), student의 parameter를 l만큼 moving-average로 계산해 준다) - Teacher의 parameter는 이전 student들의 average와 같게 된다.(정확히는 아니다, l에 따라..)
+그 후, exponential moving average를 통해 teacher를 학습시킨다. 
+
+#### Moving Average - Exponential Moving Average
+https://www.investopedia.com/terms/m/movingaverage.asp 
+
+어떤 hyperparameter l에 대해, teacher의 paramer을 (1-l), student의 parameter를 l만큼 moving-average로 계산해 준다) - Teacher의 parameter는 이전 student들의 average와 같게 된다.(정확히는 아니다, l에 따라..)
