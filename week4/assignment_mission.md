@@ -27,8 +27,32 @@ Data를 Augmentation해서 pretrain된 모델을 Fine-Tuning해보는 과제
 
 곰곰히 생각해보니 normalize는 Augmentation도 아니다.
 
++ 피어 세션에서 나온 이야기인데, Augmentation의 순서가 생각보다 영향을 끼치는 것 같다. rotate 등의 선형 변환과의 순서는 상관 없다고 생각했는데, "빈 자리"를 검은색으로 채우는 과정에서 색 변환과의 순서에 따른 결과 차이가 발생하는 것 같다.
+
 # Assignment 3
 
 # Assignment Advanced
+
+Visualization을 하는 과정이었는데..
+
+모델을 디버깅하기 위해 중간에 hooking하는 법을 알게 된게 가장 큰 수확 같다.
+
+모델의 파라미터 갯수 등을 가져오고, CNN Visualization을 위해 중간 커널, 그래디언트 등을 가져오는 방법을 보았다. parameters의 인ㄴ자들이나..
+
+saliency를 그리는 과정에서는 softmax를 통과하지 않는 게 신기했다. 이전 과제에서도 그렇고, visualize를 잘 보여주기 위해서는 softmax 단을 거치지 않는 것으로 보인다.
+
+## hooking
+
+tensor 혹은 module에 걸 수 있다.
+
+forward, backward 모두 걸 수 있으며, 해당 텐서 혹은 모듈을 지나갈 때 해당 hooking function 또한 지나가게 된다(input, output도 받는 hooking function을 정의해야 한다)
+
+여기서 내가 실수한 점이, module의 forward에는 `register_forward_hook` 으로 정의를 잘 했는데,
+
+backward를 할 때 tensor 그 자체에 `register.hook` 을 걸지 않고 `tensor.grad_fn` 에 `register.hook` 을 걸었다.
+
+이 경우, `grad_fn` 에 흘러 들어오는 모든 gradient에 대해 따로 계산을 하기 때문에.. "여러 인자"를 받는 알맞은 hook function을 만들어 주었어야 했다. 나의 경우에는 `grad_fn.register.hook` 의 함수가 하나의 인자가 아니라 두 개의 인자를 받아야 해서 오류를 냈는데, `tensor`에 바로 걸어 주니 문제가 해결되었다.
+
+참고로, `grad_fn.register.hook` 에 흘러온 두 개의 인자는 grad_input, grad_output으로 보인다. ReLU였기 때문에 큰 차이는 없었지만, 둘의 차이를 뺀 값을 본 결과 굉장히 이상한 위치에 값이 있었던 걸로 보아, 음의 값 부분만큼 차이가 나는 것으로 보인다.
 
 # Weekly mission & pair review
