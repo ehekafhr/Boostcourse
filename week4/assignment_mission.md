@@ -14,8 +14,7 @@ torch.unfold 함수를 이용해 가로, 세로로 분할 후 컨볼루션 연�
 
 # Assignment 2
 
-Data를 Augmentation해서 pretrain된 모델을 Fine-Tuning해보는 과제.
-
+Data를 Augmentation해서 pretrain된 모델을 Fine-Tuning해보는 과제
 
 
 또한 pyplot의 `imshow()` 함수는 (x,y,channel) 차원을 받는데, 일반적으로 torch에서는 (batch,channel,x,y) 형식으로 이미지를 표시한다. batch는 무시하더라도, `permute()` 함수를 통해 channel 위치를 조정해 주어야 image를 show할 수 있다.
@@ -25,6 +24,8 @@ Data를 Augmentation해서 pretrain된 모델을 Fine-Tuning해보는 과제.
 `resize()` 만 한 것보다는 여러 가지 Augmentation을 넣은 게 정확도가 살짝 높았다. 
 
 특이한 점으로는, Train data에 normalize를 적용했더니 오히려 정확도가 줄어들었다. normalize를 하는 행위가 이미지가 가지고 있는 데이터를 손실시키는 것 같다. 마지막 질문에 대답하는 과정에서 생각이 났는데, 이미 ViT 모델은 normalize를 하지 않은, 데이터의 밝기의 편차 등을 조금이라도(엄청나게는 아니지만) 사용하기 때문에 이를 방해하는 Data를 넣어버린 게 아닌가 싶다.
+
+곰곰히 생각해보니 normalize는 Augmentation도 아니다.
 
 # Assignment 3
 
