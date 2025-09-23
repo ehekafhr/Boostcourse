@@ -328,6 +328,14 @@ flip : 뒤집기
 
 Mixing: 이미지 두 개를 합친다!!! 이렇게 합친 이미지는 라벨도 그만큼 섞어 준다. one-hot label이 아니게 된다.
 
+mixup: Beyond Empirical Risk Minimization: https://arxiv.org/abs/1710.09412 
+
+여기서는 모든 pixel을 섞어 준다는 개념이고,
+
+CutMix: Regularization Strategy to Train Strong Classifiers with Localizable Features: https://arxiv.org/abs/1905.04899
+
+여기서는 개 하반신, 고양이 상반신처럼 crop해서 붙이는 방식이다.
+
 이러한 단순한 조합들이 생각 외로 Test Accuracy를 높여 준다.
 
 Copy-paste: Segmentation된 부분들을 다른 데이터 위에 그려넣어 데이터를 만들어 준다.
