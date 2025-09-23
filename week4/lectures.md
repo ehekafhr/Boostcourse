@@ -283,7 +283,7 @@ $$ L^{c}_Grad-CAM = ReLU(\sum_k \alpha^{c}_{j}A^{j}) $$
 
 #### ViT: Self-attention layer visualization
 
-CLS 토큰(우리가 MLP를 통과해서 결과를 뽑아낼)에 대한 self-attention map을 통해 visualize한다.
+CLS 토큰(우리가 MLP를 통과해서 결과를 뽑아낼)에 대한 마지막 self-attention의 self-attention map을 통해 visualize한다.
 
 게다가, ViT에서는 multi-head attention을 하기 때문에 head마다 다른 의미를 가지고 있는 영역을 보는 것을 가능하게 한다!
 
