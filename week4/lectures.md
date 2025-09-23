@@ -271,11 +271,11 @@ https://arxiv.org/pdf/1610.02391
 
 $$ \alpha^{c}_{k} = \frac{1}{Z}\sum_i \sum_j \frac{\partial y^c}{\partial A^{k}_{ij}} $$
 
-를 통해 특정 클래스 c에 대한 각 channel k를 학습시키고,
+를 통해 특정 클래스 c에 대한 각 channel k에 곱할 값들을 구하고,
 
-$$ L^{c}_Grad-CAM = ReLU(\sum_k \alpha^{c}_{j}A^{j}) $$
+$$ L^{c}_{Grad-CAM} = ReLU(\sum_k \alpha^{c}_{j}A^{j}) $$
 
-로 선형 결합을 한 뒤, ReLU로 음의 영향력을 무시하게 한다. Target에서 Conv layer가 나올때까지 Backpropagate. (모델의 재학습이 아니다. 최종 단에 적용될 $alpha$ 를 학습하는 것이다)
+로 선형 결합을 한 뒤, ReLU로 음의 영향력을 무시하게 한다. Target에서 Conv layer가 나올때까지 Backpropagate. (모델의 재학습이 없다. 한번만 Back해서 확인하는 것)
 
 그렇다면 "특정 클래스"로 판단하는 데에 어떤 부분이 영향을 끼쳤는지 파악할 수 있다.
 
