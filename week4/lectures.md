@@ -229,7 +229,11 @@ Backpropagation을 하는데, 여기서는 minimize 문제가 아니라 maximize
 
 이를 반복하면 "모델이 가장 라벨에 알맞다고 생각하는" 이미지를 얻을 수 있다. (+regulation 때문에 조금 흐릿할 수도)
 
-### CAM: Class activation mapping
+### 영역도출
+
+어떠한 부분이 모델의 결정에 중요한 역할을 했는지 찾아내는 visualization
+
+#### CAM: Class activation mapping
 
 원래 Image의 어떤 영역이 결과에 영향을 많이 주었는지를 이미지화한다. heatmap 형식으로 표시한다.
 
@@ -257,10 +261,71 @@ $$  \sum_{(x,y)} \sum_k w^{c}_{k} f_k(x,y) $$
 
 ResNet, GoogLeNet의 경우는 이미 AveragePooling이 FC 전에 있기 때문에, 이를 GAP로 해석하면 추가 학습이 필요없다.
 
-### Grad-CAM
+#### Grad-CAM
 
 CAM과 다르게, 추가 학습이 필요없게 하는 방식이다.
 
+<img width="1327" height="466" alt="image" src="https://github.com/user-attachments/assets/64aa5812-781d-46b5-a4cf-74193ba93908" />
+
+https://arxiv.org/pdf/1610.02391
+
 $$ \alpha^{c}_{k} = \frac{1}{Z}\sum_i \sum_j \frac{\partial y^c}{\partial A^{k}_{ij}} $$
 
+를 통해 특정 클래스 c에 대한 각 channel k를 학습시키고,
+
+$$ L^{c}_Grad-CAM = ReLU(\sum_k \alpha^{c}_{j}A^{j}) $$
+
+로 선형 결합을 한 뒤, ReLU로 음의 영향력을 무시하게 한다. 이 과정을 converge할 때까지 반복. (모델의 재학습이 아니다. 최종 단에 적용될 $alpha$ 를 학습하는 것이다)
+
+그렇다면 "특정 클래스"로 판단하는 데에 어떤 부분이 영향을 끼쳤는지 파악할 수 있다.
+
+위의 그림에도 나와 있듯이, Gradient를 Feature MAps까지만 전달하면 되기 때문에 어떠한 task에도 적용 가능하다는 것도 장점이다.
+
+#### ViT: Self-attention layer visualization
+
+CLS 토큰(우리가 MLP를 통과해서 결과를 뽑아낼)에 대한 self-attention map을 통해 visualize한다.
+
+게다가, ViT에서는 multi-head attention을 하기 때문에 head마다 다른 의미를 가지고 있는 영역을 보는 것을 가능하게 한다!
+
+<img width="571" height="564" alt="image" src="https://github.com/user-attachments/assets/17932c20-c78d-4f54-a43a-e9b253cfc1f5" />
+
+https://arxiv.org/pdf/2104.14294
+
+head마다 다른 영역을 보는 것을 확인할 수 있다. 어떤 놈은 당근, 어떤 녀석은 칼..
+
+하지만, gradcam과는 다르게 이 경우에는 특정 클래스를 targeting할 수 없다. attention matrix에서 판단하기 때문..
+
+### GAN dissection
+
+<img width="768" height="383" alt="image" src="https://github.com/user-attachments/assets/1e90eb1c-4b23-4fd0-a519-2d788cfde2d8" />
+https://arxiv.org/pdf/1811.10597
+
+이러한 "해석 가능한" feature들을 이용하여, GAN과 같은 생성 모델에서 특정 부분을 수정할 수 있다.
+
 # Augmenatation
+
+데이터셋은 "모든"데이터를 얻을 수 없고, 얻는 과정이 독립추출이기 어렵기 때문에 bias된 데이터를 얻게 되고,
+
+이러한 데이터를 사용하게 되면 실전 데이터에서 robust하지 않게 동작할 수 있다.
+
+예를 들어, 해바라기를 해가 떴을 때만 찍으면 어두운 해바라기는 제대로 판별하기 어려울 수 있다.
+
+따라서, 이러한 gap을 줄이기 위해 데이터를 이리저리 흔들어서 실제 데이터 domain처럼 만들어 주는 것을 Augmentation이라고 한다.
+
+## Technic
+
+Crop: 짜르기
+
+Shear: 기울이기-평행사변
+
+Brightness: 밝기 조
+
+Perspective Trnasformation: 원근 변환. 사진을 사다리꼴처럼 기울인다..
+
+Rotate : 돌리기
+
+flip : 뒤집기
+
+Mixing: 이미지 두 개를 합친다!!! 이렇게 합친 이미지는 라벨도 그만큼 섞어 준다. one-hot label이 아니게 된다.
+
+Augmentation
