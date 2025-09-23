@@ -53,6 +53,6 @@ backward를 할 때 tensor 그 자체에 `register.hook` 을 걸지 않고 `tens
 
 이 경우, `grad_fn` 에 흘러 들어오는 모든 gradient에 대해 따로 계산을 하기 때문에.. "여러 인자"를 받는 알맞은 hook function을 만들어 주었어야 했다. 나의 경우에는 `grad_fn.register.hook` 의 함수가 하나의 인자가 아니라 두 개의 인자를 받아야 해서 오류를 냈는데, `tensor`에 바로 걸어 주니 문제가 해결되었다.
 
-참고로, `grad_fn.register.hook` 에 흘러온 두 개의 인자는 grad_input, grad_output으로 보인다. ReLU였기 때문에 큰 차이는 없었지만, 둘의 차이를 뺀 값을 본 결과 굉장히 이상한 위치에 값이 있었던 걸로 보아, 음의 값 부분만큼 차이가 나는 것으로 보인다.
+참고로, `grad_fn.register.hook` 에 흘러온 두 개의 인자는 grad_output, grad_input으로 보인다( 이전 단으로 가는 gradient, 다음 단에서서 들어온 gradient 순서로...) ReLU였기 때문에 큰 차이는 없었지만, 둘의 차이를 뺀 값을 본 결과 굉장히 이상한 위치에 값이 있었던 걸로 보아, 음의 값 부분만큼 차이가 나는 것으로 보인다.
 
 # Weekly mission & pair review
