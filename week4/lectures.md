@@ -347,3 +347,55 @@ copy-and paste를 통해 Augmentatiopn된 데이터를 만들고, (Object + Back
 Motion을 추가하기 위해서 단순히 Translation만 사용한다.(Random한 방향으로)
 
 이렇게 "움직임"을 학습하면, 모션의 크기를 크게 하거나 하면서 흔들림, 이동 등을 과장할  수 있다.
+
+# Segmentation & Detection
+
+## Sementic segmentation 
+
+각각의 픽셀을 카테고리로. 어떤 Instance인가?를 따지는 것은(서로 다른 자동차인지..)는 panoptic segmentation에서 다룬다.
+
+의료, 자율주행 등 다양한 CV 분야에 사용된다.
+
+### FCN
+
+CNN과 다르게, flatten을 하지 않고 마지막까지 CNN 단을 유지하여.. pixelwise하게 결과를 뽑아낸다.
+
+그런데, 이런 경우 CNN에서 max pooling이나, padding 없는 convolution에 의해 이미지 사이즈가 줄어들기 때문에 "작은" 이미지가 나오게 된다.
+
+하지만, 마지막 단의 레이어는 많은 정보를 담고 있지만, 이미 "합쳐진" 데이터이기 때문에 이것만으로 upsampling하기에는 무리가 있다.
+
+<img width="1636" height="383" alt="image" src="https://github.com/user-attachments/assets/7ce82f10-454c-4bef-914f-5ac97672a303" />
+https://arxiv.org/pdf/1411.4038
+
+그래서, 마지막 커널을 통과한 값들 뿌남ㄴ 아니라 다른 값들도 사용한다.
+
+그림에 나와 있는 FCN-32s는 마지막 단만 사용한 것으로, FCN-16s, FCN-8s 등은 그 전 단, 그 전 전 단까지 사용한 결과이다.
+
+너무 앞쪽 단에는 feature extraction이 다 되어 있지 않을 수 있기 때문에 8x가 좋은 결과를 뱉는 것으로 보인다.
+
+### U-net
+
+<img width="1697" height="757" alt="image" src="https://github.com/user-attachments/assets/a3a43331-7b48-45b4-9e39-c20360521dc4" />
+[ Ronneberger etal.,U-Net:ConvolutionalNetworksforBiomedical ImageSegmentation,MICCAI2015](https://arxiv.org/abs/1505.04597)
+
+U-net은 FCN과 비슷하게, Contracting path(왼쪽)에서 절반씩 downsizing을 하면서 feature channel의 수를 두배로 늘리고,
+
+*이때, upscaling을 할 때 "2배"의 이미지가 되기 때문에, downsizing을 할 때 홀수인 경우 사이즈가 이상해진다. 따라서, 커널의 사이즈 등을 조절해서 항상 downsizing을 할 때 짝수가 되도록 해 준다.
+
+오른쪽의 Expanding path에서는 반대로 채널을 줄여 가며 이미지를 upscaling한다.
+
+논문을 살펴보면.. 왼쪽과 오른쪽의 이미지 사이즈가 다르다. upscaling할 때 어떻게 그러면 이어붙이냐?고 하면..
+
+그냥 가운데 중심으로 자른다고 한다.얼탱.
+
+## Object Detection
+
+### Two-stage(R-CNN)
+
+### One-stage(YOLO)
+
+## Instance segmentation
+
+## Transformer-based
+
+## SAM, Grounded SAM
