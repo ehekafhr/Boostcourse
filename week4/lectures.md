@@ -390,9 +390,54 @@ U-net은 FCN과 비슷하게, Contracting path(왼쪽)에서 절반씩 downsizin
 
 ## Object Detection
 
+Bounding box를 찾는 과정이다. (+Classification)
+
+보통 박스 하나는 $(p_{class}, x_1,x_2,y_1,y_2)$ 꼴로 나타난다.
+
 ### Two-stage(R-CNN)
 
+Bounding box를 먼저 찾고(Selective search를 사용한다. 이미지들로부터, 후보 이미지들을 모두 뽑아내는 Pre-trained된 모델이고, CNN 구조는 아니다)
+
+그 Bounding box들을 동일 사이즈로 warp 한 후(CNN에 넣기 위해) CNN으로Clasification하는 두 단계로 이루어진 아키텍쳐이다.
+
+기본적이 R-cnn은, 인풋 이미지에서 수많은 region 제안을 뽑고, 그 제안들에 대해 모두... CNN을 돌린다.
+
+당연하겠지만, 무척 오래 걸린다.. 오래 걸리고, 데이터도 모자라서 그런지 SVM object classifier를 사용했다.
+
+<img width="1372" height="707" alt="image" src="https://github.com/user-attachments/assets/381017fb-0dae-4583-961d-b095c6e24abb" />
+https://lilianweng.github.io/posts/2017-12-31-object-recognition-part-3.html
+
+Fast R-CNN은 "미리" 이미지를 통과시켜 RoI map를 투영할 feature map 만들어 놓고, proposal들을 그 위에 proejct한 후 max pooling을 통해 고정된 크기의 값을 뱉도록 한다. 이렇게 하면, fully connected layer에 넣기 위한 vector의 길이를 맞출 수 있다.
+
+Fast R-CNN은 이러한 RoI pooling을 통해 2000번의 CNN 계산을 한 번으로 줄였다.
+
+Faster R-cnn은 RPN을 통해 Region proposal마저 CNN으로 계산하게 했다. (이전의 Selective search는 굉장히 느린 작업이었다)
+
 ### One-stage(YOLO)
+
+RoI pooling을 거치지 않고, 한 번에 classification과 bounding box를 찾는 방식이다.
+
+Yolo는 이미지를 그리드로 나눈 뒤, 각각 Class probability map과 Bounding box(Confidence를 포함한)을 만든 뒤, 두 개를 합쳐 detection을 한다.
+
+그리드 갯수 $S \times S$ , 그리드당 bounding box $B$ , 클래스 갯수 $ C $ 에 대해,
+
+$ S \ times S \times B \times (C+5) $ 
+
+크기의 output이 나온다! 5는 바운딩 박스의 크기와 confidence이다.
+
+다라서 후처리가 필요하다.. confidence score를 기준으로 하든.. 좀 시간이 걸리고,
+
+이렇게 후처리 끝나고 결정된 값들만 사용된다.
+
+#### Focal loss
+
+사실 대부분의 영역은 의미없는 값들이다. 대부분의 box들은 의미없는 배경만을 잡을 것이고, 중요한 정보가 아닌데도 너무 많은 숫자를 가지고 있어, 학습이 느려지는 문제가 있다.
+
+그래서 크로스 엔트로피 대신, Focal Loss를 사용한다.
+
+크로스 엔트로피에 $(1-p_t)^{\gamma}$ 를 곰한 값이다. ( $\gramma$ 는 hyperparameter)
+
+이렇게 하면, 잘 판별된 결과들에 대한 loss가 굉장히 줄어들어, "확실히 배경이여!" 하는 부분에서 쓸모없이 학습이 진행되지 않게 한다. 
 
 ## Instance segmentation
 
