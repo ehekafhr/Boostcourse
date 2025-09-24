@@ -446,8 +446,37 @@ https://arxiv.org/abs/1708.02002
 
 U-net처럼 추출하고, skip connection을 통해 합쳐 주는 것은 같지만, class와 box subnet을 나누어 object detection에 사용될 수 있게 하고, Focal loss를 통해 배경의 영향을 줄인다.
 
-## Instance segmentation
+## Instance segmentation: Mask R-CNN
+
+같은 클래스더라도, 다른 인스턴스인 경우 "다른 인스턴스임을 알리는 번호"를 매기는 작업까지 한다.
+
+Mask R-CNN은 Faster R-CNN 구조의 classifier 단에 Mask FCN predictor를 더한 구조이다.
+
+여기서 RoI pooling 대신 RoI align을 사용한다.
+
+RoI pooling에서는 양자화된 feature map을 사용하는데, 여기서 양자화되어 있기 때문에 RoI와 격자의 크기가 맞지 않으면 버려지는 문제가 있다. 이러한 문제는 masking task에서는 치명적일 수 있기 때문에, 양자화를 하지 않고, RoI를 나눈 cell들에 대해 4개의 point를 잡아 Bilinear interpolation을 통해 Cell의 값을 추출한다. (중간의 값을 선형적으로 찾는 방법, 선형회귀라고 생각하면 된다)
+
+여기서 Faster R-CNN에 Mask 대신 3D surface를 회귀시켜 3D 정보를 추출하는 Mesh R-CNN이나 DensePose R-CNN을 만들 수도 있다.
 
 ## Transformer-based
+
+### DETR: End-to-End Object DEtection with TRansformers
+
+Yolo 등의 모델에서, 의미없는 bounding box를 지우는 작업은 꽤나 시간이 걸린다. 그러한 문제를 해결하기 위해.. End-to-End 로 object detion을 하는 Transformer model을 DETR이라고 한다.
+
+<img width="1527" height="413" alt="image" src="https://github.com/user-attachments/assets/aa11ea3f-6ca6-4b10-a3e6-672226730aa1" />
+
+기본적으로 이미지의 feature들을 추출하기 위해 CNN을 사용하고, 여기에 positional encoding을 더해 transformer에 넣어 준다.
+
+encoder의 경우는 동일한데, decoder의 경우에는 이전 output을 활용한 auto-regressive한 값이 아니라 학습되는 object queries를 대신 넣어 준다. 이렇게 decoder에서 나온 값들을 FFN을 통과해서, 정답과 예측 값이 1:1이 되도록 하는 bipartite matching을 구해 loss를 계산한다.
+
+이때, 최적의 bipartite matching을 찾기 위해 matching loss와 box loss를 이용한 Hungarian algorithm 등을 사용한다.
+
+### MaskFormer
+
+<img width="1493" height="386" alt="image" src="https://github.com/user-attachments/assets/88df3db9-d51f-4ff5-8499-b80cae8d649d" />
+
+https://arxiv.org/abs/2107.06278
+
 
 ## SAM, Grounded SAM
