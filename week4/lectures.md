@@ -419,9 +419,9 @@ RoI pooling을 거치지 않고, 한 번에 classification과 bounding box를 �
 
 Yolo는 이미지를 그리드로 나눈 뒤, 각각 Class probability map과 Bounding box(Confidence를 포함한)을 만든 뒤, 두 개를 합쳐 detection을 한다.
 
-그리드 갯수 $S \times S$ , 그리드당 bounding box $B$ , 클래스 갯수 $ C $ 에 대해,
+그리드 갯수 $S \times S$ , 그리드당 bounding box $B$ , 클래스 갯수 $C$ 에 대해,
 
-$ S \ times S \times B \times (C+5) $ 
+$S \ times S \times B \times (C+5)$ 
 
 크기의 output이 나온다! 5는 바운딩 박스의 크기와 confidence이다.
 
