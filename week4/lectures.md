@@ -435,7 +435,7 @@ $S \ times S \times B \times (C+5)$
 
 그래서 크로스 엔트로피 대신, Focal Loss를 사용한다.
 
-크로스 엔트로피에 $(1-p_t)^{\gamma}$ 를 곰한 값이다. ( $\gramma$ 는 hyperparameter)
+크로스 엔트로피에 $(1-p_t)^{\gamma}$ 를 곰한 값이다. ( $\gamma$ 는 hyperparameter)
 
 이렇게 하면, 잘 판별된 결과들에 대한 loss가 굉장히 줄어들어, "확실히 배경이여!" 하는 부분에서 쓸모없이 학습이 진행되지 않게 한다. 
 
