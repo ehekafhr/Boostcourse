@@ -526,4 +526,15 @@ image의 positional embedding과 prompt embedding은 다음 단에도 더해져�
 이렇게 image to token쪽을 통과한 값은 upscale와 CNN을 거쳐, token to image가 final attention을 지난 값의 mask token을 MLP를 통과시켜서 product해서 mask를 만들게 되고, iou token은 따로 MLP를 통과시켜 confidence score로 받게 된다.
 
 내부 구조는 position encoding이 계속 더해지고, key, value를 구하는 과정에서 이것저것 더해져서 조금 복잡하다..
-s
+
+이 SAM을 학습시키기 위해 데이터 생성 과정이 재밌는데, 처음에는 조그마한 라벨링된 데이터로 시작해서,
+
+어느 정도 이후에는 모델이 뱉은 label을 사람이 수정해서 조금 더 쉽게 labeling하고ㅗ,
+
+그 다음에는 모델이 "확실하다"고 하는 것들은 그냥 모델의 라벨링을 믿고 나머지를 사람들이 labeling하고,
+
+그 다음에는 완전히 자동적으로 모델이 label을 추가하며 자동적으로 학습하게 했다.
+
+특정 데이터에는 안 좋은 결과가 나왔지만, 대부분의 결과에 좋은 데이터가 나왔다. (게다가, 이것은 특정 데이터로 fine-tuning하지 않은 모델이다!)
+
+Grounded-SAM은 G-DINO, detection을 한 뒤 context를 주는 모델과 결합시켜 Segmentation에 더해 Open-Vocab detection까지 추가한 모델이다.
