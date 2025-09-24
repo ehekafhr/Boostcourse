@@ -476,7 +476,54 @@ encoder의 경우는 동일한데, decoder의 경우에는 이전 output을 활�
 
 <img width="1493" height="386" alt="image" src="https://github.com/user-attachments/assets/88df3db9-d51f-4ff5-8499-b80cae8d649d" />
 
+<img width="1423" height="449" alt="image" src="https://github.com/user-attachments/assets/94459b4e-9d8b-4c3e-9803-cf6800265ba4" />
+
+Maskformer에서는 Mask R-CNN처럼, Mask를 따로 학습하여 픽셀 단위 분류 대신 사용한다.
+
 https://arxiv.org/abs/2107.06278
 
+Backbone CNN에서의 feature를 Transformer에 넣고, 이미지 해상도로 decoding하여 다음 step의 계산을 준비한다.
+
+transformer decoder의 결과를(Query가 학습되며 position도 학습한다) MLP를 거쳐서 class prediction과 mask embedding로 나눈다.
+
+이전에 계산한 pixel embedding에 mask embedding을(softmax를 거쳐) dot-product해준 것을 mask prediction으로 사용한다.
+
+N개의 Query가 있기 때문에, class predictions(class 수 +1(아무것도 아님))와 mask prediction은 N개가 존재한다. 이 두 개를 합쳐 예측을 수행하고, loss를 구한다.
+
+
+
+### Uni-DVPS
+
+Backbone에서 Transformer Decoder의 output을 Transformer decoder의 key-value로 하고, Depth를 따로 계산하는 MLP를 추가해 주는 모델이다.
+
+Pixel decoder에서 나온 값을  Mask, Depth 계산에 사용할 수 있게 옮겨 주는 Feature gate가 있어, 이를 mask와 Depth에도 사용하는 모델이다.
+
+이때, Query matching을 통해 Object를 추적할 수 있다. 영상에서, 같은 object의 경우 비슷한 query를 갖기 때문에 이를 통해 유사도를 계산해 같은 object인지 확인할 수 있다.
 
 ## SAM, Grounded SAM
+
+<img width="500" height="358" alt="image" src="https://github.com/user-attachments/assets/2e66bd73-2d3a-4b57-8173-dda304d08ce3" />
+
+[SegmentAnything,](https://arxiv.org/abs/2304.02643#:~:text=We%20introduce%20the%20Segment%20Anything%20%28SA%29%20project%3A%20a,masks%20on%2011M%20licensed%20and%20privacy%20respecting%20images.)
+
+image에, 우리가 원하는 추가적인 프롬프트(포인트, 텍스트, 마스크, 박스 등등..)을 넣어서 masking을 하는 마법같은 모델이다.
+
+
+<img width="922" height="1397" alt="image" src="https://github.com/user-attachments/assets/09b62421-6f1d-43e0-b772-8a436c865460" />
+
+<img width="581" height="788" alt="image" src="https://github.com/user-attachments/assets/4ea19de9-b469-46c0-b294-27e4ad761976" />
+
+
+https://maucher.pages.mi.hdm-stuttgart.de/orbook/deeplearning/SAM.html
+
+
+ViT Encoder를 사용하고, 임베딩된 데이터에 mask를 추가한 뒤 prompt encoder를 통과시킨 prompt와 mask image를 mask decoder에 넣는데,
+
+prompt를 query로 받고, mask image를 key-value로 하는 token to image attention 뿐만 아니라 image to token을 하는 decoder 두 단을 쌓는다. 
+
+image의 positional embedding과 prompt embedding은 다음 단에도 더해져서 들어간다는 것을 기억하자.
+
+이렇게 image to token쪽을 통과한 값은 upscale와 CNN을 거쳐, token to image가 final attention을 지난 값의 mask token을 MLP를 통과시켜서 product해서 mask를 만들게 되고, iou token은 따로 MLP를 통과시켜 confidence score로 받게 된다.
+
+내부 구조는 position encoding이 계속 더해지고, key, value를 구하는 과정에서 이것저것 더해져서 조금 복잡하다..
+s
