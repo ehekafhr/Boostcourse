@@ -36,11 +36,11 @@ Object dection: 물체 인식 - 네모박스!
 
 Segmentation: 물체 인식 - 픽셀 단위로 labeling
 
-Instance segmentation : 서로 다른 인스턴스들을 찾아냄.
-
 Semantic segmentation : "같은 클래스"의 인스턴스들을 묶음.
 
--> Panoptic segmentation : 모든 인스턴스들을 찾아내고, 그 클래스까지 분류한다!
+Instance segmentation : 클래스의 인스턴스들에 번호까지 매겨, 인스턴스끼리도 분류
+
+-> Panoptic segmentation : 배경까지 찾아냄
 
 #### Computation photography: 떨림 제거, 채도 조정, 화질 개선 등등..
 
@@ -352,7 +352,7 @@ Motion을 추가하기 위해서 단순히 Translation만 사용한다.(Random�
 
 ## Sementic segmentation 
 
-각각의 픽셀을 카테고리로. 어떤 Instance인가?를 따지는 것은(서로 다른 자동차인지..)는 panoptic segmentation에서 다룬다.
+각각의 픽셀을 카테고리로. 어떤 Instance인가?를 따지는 것은(서로 다른 자동차인지..)는 Instance segmentation에서 다룬다.
 
 의료, 자율주행 등 다양한 CV 분야에 사용된다.
 
@@ -438,6 +438,13 @@ $ S \ times S \times B \times (C+5) $
 크로스 엔트로피에 $(1-p_t)^{\gamma}$ 를 곰한 값이다. ( $\gramma$ 는 hyperparameter)
 
 이렇게 하면, 잘 판별된 결과들에 대한 loss가 굉장히 줄어들어, "확실히 배경이여!" 하는 부분에서 쓸모없이 학습이 진행되지 않게 한다. 
+
+이를 활용한 것이 RetinaNet이다.
+
+<img width="1727" height="537" alt="image" src="https://github.com/user-attachments/assets/9d657bea-07e7-473b-8117-189847ed348f" />
+https://arxiv.org/abs/1708.02002
+
+U-net처럼 추출하고, skip connection을 통해 합쳐 주는 것은 같지만, class와 box subnet을 나누어 object detection에 사용될 수 있게 하고, Focal loss를 통해 배경의 영향을 줄인다.
 
 ## Instance segmentation
 
