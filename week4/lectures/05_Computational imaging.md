@@ -155,7 +155,7 @@ t-1 frame Output 값 $O_{t-1}$ 그리고 그냥 프로세싱한(이미지 하나
 
 Shor-term temporal loss는 앞의 image와의 차이를 측정하는 loss로,
 
-이전 이미지와 현재 이미지의 실제 차이를 계산한 값
+이전 이미지와 현재 이미지의 실제 차이를 사용해 만든 mask (0과 1을 갖는다)
 
 $$ M_{t\Rightarrow t-1}^{(i)} == exp(-\alpha \vert I_t - \hat{I_{t-1} \vert^{2}_{2} $$ 
 
@@ -163,6 +163,14 @@ $$ M_{t\Rightarrow t-1}^{(i)} == exp(-\alpha \vert I_t - \hat{I_{t-1} \vert^{2}_
 
 $$ L_{st} = \sum_{t=2}^{T} \sum_{i=1}^{N} M_{t\Rightarrow t-1}^{(i)} \vert O_{t}^{(i)} - \hat O_{t-1}^{(i)} \vert_1 $$
 
+를 loss로 사용한다.
+
+hat이 붙은 부분은 $I_t$와 $I_{t-1}$ 을 flowNet을 통과시켜 추출한 F layer와 함께 Warping Layer를 통과했다는 뜻이다. 또한, N은 픽셀 수이다.
+
+(왜 t=2부터 시작하는가? 어차피 long-term temporal loss에서 계산될 것이기 때문.)
+
 이때, Long-term temporal loss는 모든 image pair들에 대해 계산하지 않고, "첫번째" 이미지와의 loss만을 계산한다.
+
+$$ L_{lt} = \sum_{t=2}^{T} \sum_{i=1}^{N} M_{t\Rightarrow t-1}^{(i)} \vert O_{1}^{(i)} - \hat O_{t-1}^{(i)} \vert_1 $$
 
 
