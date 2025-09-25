@@ -179,7 +179,7 @@ image의 positional embedding과 prompt embedding은 다음 단에도 더해져�
 
 이 SAM을 학습시키기 위해 데이터 생성 과정이 재밌는데, 처음에는 조그마한 라벨링된 데이터로 시작해서,
 
-어느 정도 이후에는 모델이 뱉은 label을 사람이 수정해서 조금 더 쉽게 labeling하고ㅗ,
+어느 정도 이후에는 모델이 뱉은 label을 사람이 수정해서 조금 더 쉽게 labeling하고,
 
 그 다음에는 모델이 "확실하다"고 하는 것들은 그냥 모델의 라벨링을 믿고 나머지를 사람들이 labeling하고,
 
