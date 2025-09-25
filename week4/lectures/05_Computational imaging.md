@@ -139,8 +139,6 @@ Feature 뿐만 아니라, Feature들의 관계도 포함하는 Gram Matrix를 ML
 
 <img width="1083" height="691" alt="image" src="https://github.com/user-attachments/assets/bfe3a420-c293-4775-9b9f-a00a90a87eb1" />
 
-<img width="1098" height="618" alt="image" src="https://github.com/user-attachments/assets/28dfdbae-ae6f-4989-8dcc-6b2484c96516" />
-
 <img width="848" height="372" alt="image" src="https://github.com/user-attachments/assets/7a2564a3-307b-43a2-a888-92be00023801" />
 
 https://arxiv.org/abs/1808.00449#:~:text=In%20this%20paper%2C%20we%20present%20an%20efficient%20end-to-end,as%20inputs%20to%20produce%20a%20temporally%20consistent%20video.
@@ -149,5 +147,10 @@ https://arxiv.org/abs/1808.00449#:~:text=In%20this%20paper%2C%20we%20present%20a
 
 t Frame을 생성하는 방법은 다음과 같다.
 
-t-1 frame G
+t-1 frame Output 값 $O_{t-1}$ 그리고 그냥 프로세싱한(이미지 하나에 대해) $P_t$ 를 Network의 입력으로 넣고, Network 중간에 original video(t-1 frame, t frame)를 넣어 Concat해 준 뒤 LSTM을 포함한 U-net 구조로 다음 값을 뱉는다. 이 이미지들은 ground truth와 perceptual loss를 측정하게 된다.
 
+<img width="1098" height="618" alt="image" src="https://github.com/user-attachments/assets/28dfdbae-ae6f-4989-8dcc-6b2484c96516" />
+
+이렇게 생성된 image들 간의 Long-term과 Short-term temporal loss도 측정하게 된다.
+
+이때, Long-term temporal loss는 모든 image pair들에 대해 계산하지 않고, "첫번째" 이미지와의 loss만을 계산한다.
