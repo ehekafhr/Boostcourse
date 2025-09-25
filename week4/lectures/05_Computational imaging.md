@@ -153,4 +153,16 @@ t-1 frame Output 값 $O_{t-1}$ 그리고 그냥 프로세싱한(이미지 하나
 
 이렇게 생성된 image들 간의 Long-term과 Short-term temporal loss도 측정하게 된다.
 
+Shor-term temporal loss는 앞의 image와의 차이를 측정하는 loss로,
+
+이전 이미지와 현재 이미지의 실제 차이를 계산한 값
+
+$$ M_{t\Rightarrow t-1}^{(i)} == exp(-\alpha \vert I_t - \hat{I_{t-1} \vert^{2}_{2} $$ 
+
+에 대해,
+
+$$ L_{st} = \sum_{t=2}^{T} \sum_{i=1}^{N} M_{t\Rightarrow t-1}^{(i)} \vert O_{t}^{(i)} - \hat O_{t-1}^{(i)} \vert_1 $$
+
 이때, Long-term temporal loss는 모든 image pair들에 대해 계산하지 않고, "첫번째" 이미지와의 loss만을 계산한다.
+
+
