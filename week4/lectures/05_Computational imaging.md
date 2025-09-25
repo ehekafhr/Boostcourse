@@ -173,4 +173,8 @@ hat이 붙은 부분은 $I_t$와 $I_{t-1}$ 을 flowNet을 통과시켜 추출한
 
 $$ L_{lt} = \sum_{t=2}^{T} \sum_{i=1}^{N} M_{t\Rightarrow t-1}^{(i)} \vert O_{1}^{(i)} - \hat O_{t-1}^{(i)} \vert_1 $$
 
+이러한 Loss들에 대해.. 모두 합쳐서 얼마나 중요하게 볼지를 hyperparameter $\lambda$ 로 받아,
 
+$$ L = \lambda_p L_p + \lambda_{st} L_{st} + \lambda_{lt} L_{lt} $$ 
+
+가 된다.
