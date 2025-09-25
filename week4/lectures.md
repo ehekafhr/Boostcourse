@@ -538,3 +538,29 @@ image의 positional embedding과 prompt embedding은 다음 단에도 더해져�
 특정 데이터에는 안 좋은 결과가 나왔지만, 대부분의 결과에 좋은 데이터가 나왔다. (게다가, 이것은 특정 데이터로 fine-tuning하지 않은 모델이다!)
 
 Grounded-SAM은 G-DINO, detection을 한 뒤 context를 주는 모델과 결합시켜 Segmentation에 더해 Open-Vocab detection까지 추가한 모델이다.
+
+# Computational imaging
+
+## Training
+
+### Denosing
+
+### Super resolution
+
+### Image deblurring
+
+### Video motion magnification
+
+### Image restoration
+
+## Advanced loss functions
+
+### Adversarial loss
+
+### Perceptual loss
+
+## Video
+
+### Problem
+
+### Processing
