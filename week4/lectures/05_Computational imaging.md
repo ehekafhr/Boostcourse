@@ -157,7 +157,7 @@ Shor-term temporal loss는 앞의 image와의 차이를 측정하는 loss로,
 
 이전 이미지와 현재 이미지의 실제 차이를 사용해 만든 mask (0과 1을 갖는다)
 
-$$ M_{t\Rightarrow t-1}^{(i)} == exp(-\alpha \vert I_t - \hat{I_{t-1} \vert^{2}_{2} $$ 
+$$ M_{t\Rightarrow t-1}^{(i)} == exp(-\alpha \vert I_t - \hat{I_{t-1}} \vert^{2}_{2}) $$ 
 
 에 대해,
 
