@@ -56,3 +56,11 @@ backward를 할 때 tensor 그 자체에 `register.hook` 을 걸지 않고 `tens
 참고로, `grad_fn.register.hook` 에 흘러온 두 개의 인자는 grad_output, grad_input으로 보인다( 이전 단으로 가는 gradient, 다음 단에서서 들어온 gradient 순서로...) ReLU였기 때문에 큰 차이는 없었지만, 둘의 차이를 뺀 값을 본 결과 굉장히 이상한 위치에 값이 있었던 걸로 보아, 음의 값 부분만큼 차이가 나는 것으로 보인다.
 
 # Weekly mission & pair review
+
+직접 resnet을 계층적으로 구현해 보는 과제.
+
+convblock -> resblock -> resnet을 계층적으로 만들고,  resnet은 resblock 등을 nn.sequential로 묶고, 마지막엔 `nn.AvgPool2d`를 통해 커널 수 만큼의 output을 뱉어 fully connected layer로 보낸다.
+
+이렇게 학습한 모델과, 같은 구조를 갖는 pre-trained model의 마지막 fc layer만 `require_grad` 상태로 만들고 나머지는 `require_grad = False`를 준 fine-tune model과 비교를 진행했다.
+
+우리의 모델은 train의 경우에는 어느 정도 비슷하지만 "안정적이지 않은" 상태를 보였고, validation에서는 안정적이지 않은 것 뿐만 아니라 fine-tune model에 비해 accuracy도 떨어지는 모습을 보였다.
