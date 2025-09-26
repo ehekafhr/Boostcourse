@@ -37,7 +37,7 @@ Visualization을 하는 과정이었는데..
 
 모델을 디버깅하기 위해 중간에 hooking하는 법을 알게 된게 가장 큰 수확 같다.
 
-모델의 파라미터 갯수 등을 가져오고, CNN Visualization을 위해 중간 커널, 그래디언트 등을 가져오는 방법을 보았다. parameters의 인ㄴ자들이나..
+모델의 파라미터 갯수 등을 가져오고, CNN Visualization을 위해 중간 커널, 그래디언트 등을 가져오는 방법을 보았다. parameters의 인자들이나..
 
 saliency를 그리는 과정에서는 softmax를 통과하지 않는 게 신기했다. 이전 과제에서도 그렇고, visualize를 잘 보여주기 위해서는 softmax 단을 거치지 않는 것으로 보인다.
 
