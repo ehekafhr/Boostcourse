@@ -63,4 +63,8 @@ convblock -> resblock -> resnet을 계층적으로 만들고,  resnet은 resbloc
 
 이렇게 학습한 모델과, 같은 구조를 갖는 pre-trained model의 마지막 fc layer만 `require_grad` 상태로 만들고 나머지는 `require_grad = False`를 준 fine-tune model과 비교를 진행했다.
 
-우리의 모델은 train의 경우에는 어느 정도 비슷하지만 "안정적이지 않은" 상태를 보였고, validation에서는 안정적이지 않은 것 뿐만 아니라 fine-tune model에 비해 accuracy도 떨어지는 모습을 보였다.
+나의 모델은 train의 경우에는 어느 정도 비슷하지만 "안정적이지 않은" 상태를 보였고, validation에서는 안정적이지 않은 것 뿐만 아니라 fine-tune model에 비해 accuracy도 떨어지는 모습을 보였다.
+
+validation의 cuda 관련 문제로 에러가 자꾸 나고, optimizor하고 model이 떨어지는 문제로 제출 시는 제대로 학습하지 못했다. 
+
+모델 구조를 보면 조금씩 원본 ResNet과 다른 부분이 있었다.. 실수로 BatchNorm뿐만 아니라 ReLU까지 적용하는 ResBlock을 통해 skip-connection을 진행하는 실수 등등 깔끔하지 않은 코드로 인한 문제가 발생한 것 같다. Validation을 log할 때에도 기록을 너무 많이 하는 error가 발생.
