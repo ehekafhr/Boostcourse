@@ -24,7 +24,7 @@ $$ h_t = f_W(h_{t-1},x_t) $$
 
 또한, "입력과 출력의 길이가 같다"는 문제 존재. ->번역할 때 단어 수가 같지는 않다.
 
-### Vanishing Gradient
+## Vanishing Gradient
 
 Backpropagation 시, $h_t$ 에서 $h_{t-1}$ 로 갈 때 hidden state를 위한 weight $W_{hh}$ 를 곱해 주게 된다.
 
@@ -38,11 +38,11 @@ Backpropagation 시, $h_t$ 에서 $h_{t-1}$ 로 갈 때 hidden state를 위한 w
 
 Exploding gradient는 클리핑으로 처리 가능하지만(그냥 특정 값을 최대로 해버리면 된다), Vanishing gradient는 해결이 되지 않는다.
 
-## RNN 기반 알고리즘
+# RNN 기반 알고리즘
 
 Vanishing Gradient가 사라짐을 보장하지는 않는다. 하지만, 적어도 Vanila RNN보다는 낫고, 특히 Long-range dependence가 없는 문제는 해결 가능하다.
 
-### LSTM
+## LSTM
 
 <img width="1055" height="586" alt="image" src="https://github.com/user-attachments/assets/27a627c1-231c-416d-a18b-b67f21de9383" />
 
@@ -60,6 +60,7 @@ cell state를 input gate 값과 더해 update하고 이를 tanh 게이트로 넘
 
 Resnet의 residual처럼 생각하면 될 것 같다.
 
+## GRU
 
 ## Seq2Seq
 
