@@ -27,3 +27,9 @@ Word2Vec의 두 방법론인 skip-gram과 CBoW 방법론을 적용해 학습시�
 가생이에 있는 단어를 처리하기 위해 고민 중, skip-gram의 경우에는 y를 one-hot vector끼리 더해 주는 형식으로 해결하였고, CBoW의 경우에는 그렇게 하기 힘들어 Padding을 의미하는 Token을 추가해 주고, Embedding 시에 그것을 표시해 학습되지 않게 해 주었다.
 
 PCA 등으로 시각화했을 때 무언가 비슷한 단어들끼리 모여 있는 것 같으면서도 애매한 모습이었는데, 학습에 사용된 문장이 10개의 문장밖에 되지 않았기 때문으로 추정된다.
+
+# Weekly mission
+
+embedding부터 rnn, lstm 간단한 구현 미션.
+
+딱히 어려운 부분은 없었지만, Long-term memory를 위한 hyperparameter로도 볼 수 있는 초기값의 중요도를 볼 수 있었다.
