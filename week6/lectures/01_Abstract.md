@@ -24,14 +24,22 @@ prompt 등을 input으로 추가로 받아 생성 가능하다. Chat=Gpt의 Chat
 
 # OverView
 
-## Generative model
+## Generative model: Autoencoder / Variational Autoencoder 기반.
 
 ## 변분추론(VI)
 
-## Markov monte carlo
+model $p_\theta(x)$ 과
 
-## Analysis
+Data $D = {x_1,...,x_n}$ 을 통해
 
-## Causality and ML
+Maximum likelihood $\theta \leftarrow argmax_{\theta} \frac{1}{N} \sum_i log p_{\theta}(x_i)$ 
+
+를 찾는 과정. "Posterior"를 찾아가는 과정이 된다.
+
+## Markov monte carlo: 확률들을 chain에 걸쳐 곱해 가며 가장 가까운 분포를 찾는다.
+
+## Analysis: 설명 가능성
+
+## Causality and ML 
 
 
