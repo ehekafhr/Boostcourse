@@ -7,6 +7,7 @@
 검증 데이터가 없다면 Data Snooping Bias가 발생하는데, 실제 시스템에 배포했을 때 성능이 하락하는 현상이다.
 
 <img width="773" height="393" alt="image" src="https://github.com/user-attachments/assets/c61c1304-d484-4009-a012-e5302fd1fbf0" />
+
 https://databasecamp.de/en/ml/overfitting-en
 이렇게 Overfitting된 모델의 경우에는 Train dataset에 대해서만 잘 동작한다.
 
