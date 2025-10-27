@@ -6,6 +6,16 @@
 
 검증 데이터가 없다면 Data Snooping Bias가 발생하는데, 실제 시스템에 배포했을 때 성능이 하락하는 현상이다.
 
+<img width="773" height="393" alt="image" src="https://github.com/user-attachments/assets/c61c1304-d484-4009-a012-e5302fd1fbf0" />
+https://databasecamp.de/en/ml/overfitting-en
+이렇게 Overfitting된 모델의 경우에는 Train dataset에 대해서만 잘 동작한다.
+
+<img width="674" height="587" alt="image" src="https://github.com/user-attachments/assets/f6eb7e5b-044f-427c-910b-bea7ff5be9e1" />
+https://databasecamp.de/en/ml/overfitting-en
+따라서, Train loss가 가장 적은 지점이 아니라 validation loss가 가장 적은 지점을 고르는 것이 좋다.
+
+
+
 테스트 데이터는 모델의 최종 성능 평가용이다.
 
 이 세 가지 데이터는 서로 영향을 주면 안 된다(예를 들어, fit_transform은 훈련 데이터에만 사용되어야 하고, 나머지에는 transform을 사용해야 한다)
@@ -38,6 +48,20 @@
 Undersampling은 단순히 다수 클래스를 줄이는 것이다. 이때, "좋은"데이터만 남기기 위해서, 
 Near miss는 소수 클래스 데이터 포인트에 가까운 데이터를 선택한다(분류 line을 잘 만들기 위해서)
 Tomek Links의 경우에는 "다른 클래스인데, 가장 가까운" data 쌍의 다수 클래스를 제거한다.
+
+## K-Fold 교차 검증
+
+데이터가 모자란 경우, 학습 데이터를 검증 데이터로 분할하는 것이 부담스러울 수 있다.
+
+이러한 경우에는, 데이터를 무작위의 동일한 크기의 K개의 fold로 분할하여,
+
+하나를 검증 데이터로, 나머지를 트레인 데이터로 K번 학습시켜 K개의 평가 지표를 통해 종합적 성능을 평가한다.
+
+여기서도 Stratify를 적용하여 라벨별 밸런스를 마ㅣㅈ추는 것이 좋다.
+
+시계열 데이터의 경우에는 시간의 흐름에 맞추어야 하기 때문에, K개의 dataset으로 나누면 K-1번의 학습을 진행한다. I번째 학습에서는 I개의 fold만 training dataset으로 들어가기에, 초기 분할에는 데이터셋의 양이 적어진다.
+
+Sklearn에는 `Kfold`와 `StratifiedKfold`로 교차 검증을 지원한다.
 
 Oversampling은 단순히 Resampling을 하거나,
 
