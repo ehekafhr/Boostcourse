@@ -69,6 +69,19 @@ Optimizer, Loss function, scheduler 등을 선언한다.
 
 모델에 사용되는 Hyperparameter은 Grid, Random, Bayesian Opt 등을 사용
 
+### Hyperparameter Tuning
+
+하이퍼파라미타는 모델 학습 과정의 디자인에 반영되는 값들로, 학습 시작 전에 미리 세팅된다.
+
+learning rate, batch size, 손실 함수, 신경망의 레이어 수 등이 있다.
+
+이 hyperparameter에 따라 모델의 성능이 달라질 수 있기 때문에, 여러 가지 hyperparamter를 잘 고르는 것이 중요하다.
+
+단순히 격자점으로 모두 찾아보는 Grid search, Random search가 있지만, 
+
+초기 탐색을 한 뒤 map을 만들어 학습하는 Bayesian search를 많이 사용한다. *Optuna의 경우에도 기본적으로 Bayesian search를 base로 하는 알고리즘 을 사용한다.
+
+WandB의 Sweep, Optuna의 trial 등의 도구가 있다.
 
 ## 모델 선택
 
