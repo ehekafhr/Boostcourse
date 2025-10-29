@@ -39,6 +39,14 @@ best_trial = trainer.hyperparameter_search(
 
 ## Sampler
 
+Sampler는 `hyperparameter_space`에서 정한 하이퍼파라미터 범위에서 어떤 하이퍼파라미터를 고를지 정하는 알고리즘이다.
 
+default는 TPESampler이며, GridSampler, RandomSampler, TPESampler, CmaEsSampler, BruteForceSampler 등이 있다.
 
 ## Pruner
+
+Sampler가 고른 하이퍼파라미터를 검증하던 도중, 가능성이 없는 trial을 가지치기하는 방법이다.
+
+### MedianPruner
+
+
