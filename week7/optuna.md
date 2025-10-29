@@ -43,7 +43,21 @@ Sampler는 `hyperparameter_space`에서 정한 하이퍼파라미터 범위에�
 
 default는 TPESampler이며, GridSampler, RandomSampler, TPESampler, CmaEsSampler, BruteForceSampler 등이 있다.
 
+### GridSampler
+
+serach space만 주어지면 Grid search를 수행한다. 
+
+"모든 경우의 수"를 추적해야 하기 때문에, 하이퍼파라미터 범위는 범주형으로 지정되어야 한다.
+
+### RandomSampler
+
+seed에만 영향을 받아, 랜덤한 하이퍼파라미터를 뽑아 trial을 만든다.
+
+### TPE Sampler
+
 ## Pruner
+
+
 
 Sampler가 고른 하이퍼파라미터를 검증하던 도중, 가능성이 없는 trial을 가지치기하는 방법이다.
 
@@ -70,6 +84,14 @@ Median Pruner에서 이전 값들 Median 대신 percentile 값을 받는 Pruner�
 
 [Wilcoxon signed-rank test
 ](https://en.wikipedia.org/w/index.php?title=Wilcoxon_signed-rank_test&oldid=1195011212)
+
+현재의 trial과 현재까지 best trial 간의 Wilcoxon signed-rank test를 수행한다.
+
+`p_threshold = 0.1`을 인자로 받아, 
+Wilcoxon signed-rank test를 통과했을 때 p값보다 작으면 prune한다.
+
+즉, Wilcoxon signed-rank test가 best trial이 현재의 trial보다 좋을 확률이 (1-`p_threshold`)보다 높다고 판별하면 prune하는 방식이다.
+
 ### PatientPruner
 
 PatientPruner는 다른 Pruner를 감싸는 Pruner로,
