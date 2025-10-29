@@ -43,17 +43,55 @@ Sampler는 `hyperparameter_space`에서 정한 하이퍼파라미터 범위에�
 
 default는 TPESampler이며, GridSampler, RandomSampler, TPESampler, CmaEsSampler, BruteForceSampler 등이 있다.
 
+어떤 Sampler가 최적인지 모르겠으면, [AutoSampler](https://hub.optuna.org/samplers/auto_sampler/)를 통해 자동으로 Sampler를 고를 수 있다.
+
+
+Sampler                         |  Description                                          |  Time Complexity           |  Sequential/Parallel Support  |  Multivariate Support  |  Note                             
+--------------------------------+-------------------------------------------------------+----------------------------+-------------------------------+------------------------+-----------------------------------
+RandomSampler                   |  Samples parameters uniformly at random               |  O(1)                      |  Both                         |  No                    |  Baseline                         
+TPESampler                      |  UsesTPEbased on Parzen estimator for Bayesian opt    |  O(n log n)                |  Both                         |  Yes                   |  Probabilistic model based        
+CmaEsSampler                    |  Covariance Matrix Adaptation Evolution Strategy      |  O(n^2)                    |  Sequential only              |  No                    |  Evolutionary algorithm           
+NSGAIISampler                   |  NSGA-II multi-objective evolutionary algorithm       |  O(m n^2)                  |  Sequential only              |  No                    |  m: number of objectives          
+MOTPESampler                    |  Multi-objective TPE                                  |  O(n log n)                |  Both                         |  Yes                   |  Combines multiobj and TPE        
+GridSampler                     |  Grid search over predefined discrete values          |  O(k^d)                    |  Both                         |  No                    |  k: grid points per dim, d: dims  
+BruteForceSampler               |  Samples every point by step size in parameter range  |  O(k^d)                    |  Both                         |  No                    |  Step-size based exhaustive search
+PartialFixedSampler             |  Fixes some parameters, samples others                |  Depends on reduced space  |  Both                         |  Depends               |  For partial search spaces        
+IntersectionSearchSpaceSampler  |  Samples intersection of search spaces                |  Depends                   |  Both                         |  Depends               |  For combined search spaces       
+TPESamplerMultivariate          |  Multivariate TPE model                               |  More than O(n log n)      |  Both                         |  Yes                   |  Models param dependencies        
+
 ### GridSampler
 
 serach space만 주어지면 Grid search를 수행한다. 
 
 "모든 경우의 수"를 추적해야 하기 때문에, 하이퍼파라미터 범위는 범주형으로 지정되어야 한다.
 
+### BruteForceSampler
+
+Grid Search와 유사하지만, BruteForceSampler는 suggest_float에서 `step`을 지정해 놓으면 categorial이 아니더라도 사용 가능하다.
+
 ### RandomSampler
 
 seed에만 영향을 받아, 랜덤한 하이퍼파라미터를 뽑아 trial을 만든다.
 
-### TPE Sampler
+### GPSampler
+
+Gaussian Process를 사용하는 기본적인 Bayesian optimization Sampler이다.
+
+### [TPE Sampler](https://arxiv.org/abs/2304.11127)
+
+Bayesian sampling에 Tree 구조를 더한 알고리즘이다.
+
+### CmaEsSampler
+
+[CmaEs](https://github.com/CyberAgentAILab/cmaes?tab=readme-ov-file) 를 backbone으로 하는 Sampler.
+
+<img width="1000" height="500" alt="image" src="https://github.com/user-attachments/assets/85936089-56c1-414c-bce9-0bff547a381d" />
+
+### PartialFixedSampler
+
+한 번 study를 진행한 후, 특정 hyperparameter를 고정하고 싶을 때 쓰는 Sampler.
+
+`fixed_params`와 `sampler`를 인자로 받아, `fixed_params`를 고정시킨다.
 
 ## Pruner
 
