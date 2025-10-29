@@ -47,6 +47,30 @@ default는 TPESampler이며, GridSampler, RandomSampler, TPESampler, CmaEsSample
 
 Sampler가 고른 하이퍼파라미터를 검증하던 도중, 가능성이 없는 trial을 가지치기하는 방법이다.
 
+Prune의 default는 `MedianPruner`이며, Prune을 하지 않으려면 `NopPruner`를 지정해 주어야 한다.
+
 ### MedianPruner
+
+현재 학습 중간 결과가, 같은 step의 이전 학습들의 중간값보다 좋지 않다면 prune한다.
+인자로 `n_startup_trials = 5`, `n_warmup_steps = 0`를 받는다.
+`n_startup_trials`는 몇 번째 trial부터 Pruner가 시작할지(기본은 5이다)
+`n_warmup_steps`는 몇 번째 step부터 Pruner가 시작할지를 정한다.
+
+warmup이나 startup을 설정하지 않으면, Sampler가 explor를 하지 못해 hyperparameter들의 local minima에 빠질 수 있다.
+
+### PercentilePruner
+
+Median Pruner에서 이전 값들 Median 대신 percentile 값을 받는 Pruner이다.
+
+### PatientPruner
+
+PatientPruner는 다른 Pruner를 감싸는 Pruner로,
+
+인자로 다른 pruner와 `patience`, `min_delta`를 받는다.
+
+Early stopping과 유사하게, `patience` 기간 동안 성능이 `min_delta`만큼 개선되지 않으면 Prune한다.
+
+다른 Pruner를 감싸는 Wrapper Pruner이므로, 또다른 Pruner(MedianPruner ..)와 함께 동작한다.
+
 
 
