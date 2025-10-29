@@ -62,6 +62,14 @@ warmup이나 startup을 설정하지 않으면, Sampler가 explor를 하지 못�
 
 Median Pruner에서 이전 값들 Median 대신 percentile 값을 받는 Pruner이다.
 
+### ThresholdPruner
+
+`lower`, `upper`, `n_warmup_steps`를 받아, warmup step 이 평가 지표가 lower와 upper를 넘어서면 prune.
+
+### WilcoxonPruner
+
+[Wilcoxon signed-rank test
+](https://en.wikipedia.org/w/index.php?title=Wilcoxon_signed-rank_test&oldid=1195011212)
 ### PatientPruner
 
 PatientPruner는 다른 Pruner를 감싸는 Pruner로,
