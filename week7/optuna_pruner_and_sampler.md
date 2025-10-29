@@ -45,19 +45,19 @@ default는 TPESampler이며, GridSampler, RandomSampler, TPESampler, CmaEsSample
 
 어떤 Sampler가 최적인지 모르겠으면, [AutoSampler](https://hub.optuna.org/samplers/auto_sampler/)를 통해 자동으로 Sampler를 고를 수 있다.
 
+|Sampler                       |Description                                        |Time Complexity         |Sequential/Parallel Support|Multivariate Support|Note                             |
+|------------------------------|---------------------------------------------------|------------------------|---------------------------|--------------------|---------------------------------|
+|RandomSampler                 |Samples parameters uniformly at random             |O(1)                    |Both                       |No                  |Baseline                         |
+|TPESampler                    |UsesTPEbased on Parzen estimator for Bayesian opt  |O(n log n)              |Both                       |Yes                 |Probabilistic model based        |
+|CmaEsSampler                  |Covariance Matrix Adaptation Evolution Strategy    |O(n^2)                  |Sequential only            |No                  |Evolutionary algorithm           |
+|NSGAIISampler                 |NSGA-II multi-objective evolutionary algorithm     |O(m n^2)                |Sequential only            |No                  |m: number of objectives          |
+|MOTPESampler                  |Multi-objective TPE                                |O(n log n)              |Both                       |Yes                 |Combines multiobj and TPE        |
+|GridSampler                   |Grid search over predefined discrete values        |O(k^d)                  |Both                       |No                  |k: grid points per dim, d: dims  |
+|BruteForceSampler             |Samples every point by step size in parameter range|O(k^d)                  |Both                       |No                  |Step-size based exhaustive search|
+|PartialFixedSampler           |Fixes some parameters, samples others              |Depends on reduced space|Both                       |Depends             |For partial search spaces        |
+|IntersectionSearchSpaceSampler|Samples intersection of search spaces              |Depends                 |Both                       |Depends             |For combined search spaces       |
+|TPESamplerMultivariate        |Multivariate TPE model                             |More than O(n log n)    |Both                       |Yes                 |Models param dependencies        |
 
-Sampler                         |  Description                                          |  Time Complexity           |  Sequential/Parallel Support  |  Multivariate Support  |  Note                             
---------------------------------+-------------------------------------------------------+----------------------------+-------------------------------+------------------------+-----------------------------------
-RandomSampler                   |  Samples parameters uniformly at random               |  O(1)                      |  Both                         |  No                    |  Baseline                         
-TPESampler                      |  UsesTPEbased on Parzen estimator for Bayesian opt    |  O(n log n)                |  Both                         |  Yes                   |  Probabilistic model based        
-CmaEsSampler                    |  Covariance Matrix Adaptation Evolution Strategy      |  O(n^2)                    |  Sequential only              |  No                    |  Evolutionary algorithm           
-NSGAIISampler                   |  NSGA-II multi-objective evolutionary algorithm       |  O(m n^2)                  |  Sequential only              |  No                    |  m: number of objectives          
-MOTPESampler                    |  Multi-objective TPE                                  |  O(n log n)                |  Both                         |  Yes                   |  Combines multiobj and TPE        
-GridSampler                     |  Grid search over predefined discrete values          |  O(k^d)                    |  Both                         |  No                    |  k: grid points per dim, d: dims  
-BruteForceSampler               |  Samples every point by step size in parameter range  |  O(k^d)                    |  Both                         |  No                    |  Step-size based exhaustive search
-PartialFixedSampler             |  Fixes some parameters, samples others                |  Depends on reduced space  |  Both                         |  Depends               |  For partial search spaces        
-IntersectionSearchSpaceSampler  |  Samples intersection of search spaces                |  Depends                   |  Both                         |  Depends               |  For combined search spaces       
-TPESamplerMultivariate          |  Multivariate TPE model                               |  More than O(n log n)      |  Both                         |  Yes                   |  Models param dependencies        
 
 ### GridSampler
 
