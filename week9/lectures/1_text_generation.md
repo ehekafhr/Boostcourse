@@ -64,5 +64,19 @@ LLM 모델을 Agent로 사용하여, 강화학습 알고리즘인 PPO 알고리�
 
 # Parameter-Efficient Tuning
 
+## 필요성의 대두
+
+LLM은 
+
+## PEFT
+
+### Adapter
+
+### Prefix Tuning
+
+### Prompt Tuning
+
+### LoRA
+
 # sLLM models
 
