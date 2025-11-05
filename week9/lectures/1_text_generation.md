@@ -82,7 +82,7 @@ Finetune는 전체 layer, 혹은 Output layer, 혹은 Classifier layer만 학습
 
 일반적으로는 아래의 네 가지 방법론을 사용한다.
 
-### Adapter
+## Adapter
 
 기존에 이미 학습이 완료된 모델의 각 레이어 뒤에 학습 가능한 FFN을 삽입한다.
 
@@ -90,7 +90,7 @@ FFN은 MHA, FFN 등의 기존 아키텍쳐의 블록을 통과한 값들을 작�
 
 Target task에 대해 최적화되고, 작은 학습 파라미터 만으로도 finetuning에 근접한 성능을 기록하지만, Inference time이 증가한다는 문제가 있다 (Model 자체에 추가적인 feedforward layer들을 쌓는 것이므로)
 
-### Prefix Tuning
+## Prefix Tuning
 
 Transformer의 각각의 Layer에 learnable한 vector를 input으로 추가로 넣어주는 방식이다.
 
@@ -98,13 +98,13 @@ Task를 의미하는 특정 embedding을 Transformer에 넣어준다고 생각�
 
 이 경우 또한, Inference time이 어느 정도는 증가할 수밖에 없다 (Transformer의 MHA에 참여하는 embedding이 하나 더 생기므로)
 
-### Prompt Tuning
+## Prompt Tuning
 
 직접적인 자연어 Prompt 대신, learnable한 Prompt(자연어가 아닌, embedding)를 Input에 붙혀 주는 방식.
 
 Task를 의미하는 Prompt를 학습하는 모델이다.
 
-### LoRA
+## LoRA
 
 사전 학습된 모델의 파라미터를 고정하고, 학습가능한 rank decomposition 행렬을 삽입한다.
 
@@ -116,3 +116,8 @@ LoRA의 경우에는 이를 중간에 $r$ 차원으로 보내는 과정을 거�
 
 # sLLM models
 
+## LLAMA
+
+## ALPACA
+
+## Metrics
