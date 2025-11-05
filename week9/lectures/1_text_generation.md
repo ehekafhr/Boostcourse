@@ -66,17 +66,53 @@ LLM 모델을 Agent로 사용하여, 강화학습 알고리즘인 PPO 알고리�
 
 ## 필요성의 대두
 
-LLM은 
+Trnasformer 기반의 LLM 모델들은 General-purpose로도 좋은 성능들을 보이기 시작했다. 특히, 데이터 크기와 파라미터 사이즈는 점점 증가하며 성능을 높이고 이다.
 
-## PEFT
+이러한 LLM 모델을 사용하는 기존 방식은 Finetuning이다.
+
+Finetune는 전체 layer, 혹은 Output layer, 혹은 Classifier layer만 학습시키는 방식으로 진행된다.
+
+모든 layer를 학습하는 것이 가장 성능이 좋지만, 그만큼 시간도 많이 든다는 문제가 있다.
+
+또다른 방식으로는 in-context learning으로, 위에서 이야기한 방식대로 몇 개의 예시를 들어 주는 식으로 모델을 원하는 task에 적용할 수 있다.
+
+이러한 방식들의 문제는(특히 모든 weight을 update하는 finetuning) , 추가학습 과정에서 과거의 정보를 잊어버리는 forgetting이 문제가 된다.
+
+그렇기 때문에, 일부 파라미터를 효율적으로 fine-tune 하는 PEFT 방법론들이 대두되고 있다.
+
+일반적으로는 아래의 네 가지 방법론을 사용한다.
 
 ### Adapter
 
+기존에 이미 학습이 완료된 모델의 각 레이어 뒤에 학습 가능한 FFN을 삽입한다.
+
+FFN은 MHA, FFN 등의 기존 아키텍쳐의 블록을 통과한 값들을 작은 값으로 압축하고, 비선형 변환(ReLU 등)한 뒤 원래 차원으로 복원하는 방식으로 사용한다.
+
+Target task에 대해 최적화되고, 작은 학습 파라미터 만으로도 finetuning에 근접한 성능을 기록하지만, Inference time이 증가한다는 문제가 있다 (Model 자체에 추가적인 feedforward layer들을 쌓는 것이므로)
+
 ### Prefix Tuning
+
+Transformer의 각각의 Layer에 learnable한 vector를 input으로 추가로 넣어주는 방식이다.
+
+Task를 의미하는 특정 embedding을 Transformer에 넣어준다고 생각하면 될 듯하다.
+
+이 경우 또한, Inference time이 어느 정도는 증가할 수밖에 없다 (Transformer의 MHA에 참여하는 embedding이 하나 더 생기므로)
 
 ### Prompt Tuning
 
+직접적인 자연어 Prompt 대신, learnable한 Prompt(자연어가 아닌, embedding)를 Input에 붙혀 주는 방식.
+
+Task를 의미하는 Prompt를 학습하는 모델이다.
+
 ### LoRA
+
+사전 학습된 모델의 파라미터를 고정하고, 학습가능한 rank decomposition 행렬을 삽입한다.
+
+$d_{model}$ 에서 $d_{FFW}$ 로 가는 Layer Block이 있을 때, (NN layer라면) 이 layer의 parameter 개수는 $d_{model} \times d_{FFW}$ 일 것이다.
+
+LoRA의 경우에는 이를 중간에 $r$ 차원으로 보내는 과정을 거쳐, $d_{model}, r$ 차원의 matrix 하나와 $r, d_{FFN}$ 차원의 matrix 하나로, $r$ 에 따라 learnable parameter를 엄청나게 줄여서 빠르게 학습시킬 수 있다. 이를 Low-rank Decomposition이라고 한다.
+
+이후에, LoRA를 일정 비율로(여러가지 LoRA를 합칠 수도 있다) 원래 Layer의 Parameter에 합쳐 주기만 하면 기존 모델과 parameter 갯수가 같은 task에 맞는 새로운 모델을 얻을 수 있다 (그저, 두 matrix를 곱해 주면 차원이 맞는 weight 행렬이 나온다)
 
 # sLLM models
 
