@@ -120,7 +120,58 @@ LDM에서는 BERT를 사용하였지만, Stable Diffusion에서는 CLIP Text Enc
 
 더 큰 언어모델(CLIP)을 사용하기에, 이미지 품질이 더 좋아졌다. 후속 SD2에서는 OpenCLIP(파라미터 수가 2배이다!)을 사용해 모델을 향상시켰다.
 
+## SD training
+
+큰 크기의 모델, 많은 데이터를 사용하기에 많은 연산량을 요한다.
+
+각각의 Image와 Text를 Latent로 변환(Image Encoder, Text Encoder)한 후, 여러 Timestep에 따라 Noise를 추가하고 이를 예측하는 것을 통해 모델을 학습한다.
+
+## Inference
+
+Token embedding과 Gaussian noise를 가지고, U-Net에 (이전의 output 혹은 초기 Gaussian noise)와 Token embedding을 step별로 넣어 주어 깨끗한 Latent를 만든 뒤, Decoder에 넣어 준다.
+
+Inpainting의 경우에는 Input image의 latent에 noise를 추가한 것으로부터 inference 과정을 시작한다. Input image의 영향을 높게 가져가려면 noise step을 적게, 반대의 경우 noise step을 크게 가져간다.
+
+
 # After SD
+
+## SD2
+
+생성 이미지 해상도를 높이고, Text Encoder를 더 큰 모델로 바꾸었다.
+
+Super-resolution Upscaler Diffusion Model을 pipeline에 넣어 주어, 고해상도 upscaling도 가능하게 하였다.
+
+이미지의 Depth map 또한 예측 가능하다.
+
+## SDXL
+
+2023년 7월 26일 공개된 이미지 생성 모델로, 높은 색정확도, 정확한 색 대비 등이 가능하다.
+기본 이미지 해상도가 1024 * 1024로 가장 높고, Base 모델과 Refiner 모델로 이루어지는 것이 특징이다.
+
+Base 모델을 통과한 Latent (128*128)을 Refiner에 prompt와 함께 넣어 주는 형식이다.
+
+Text Encoder가 따라서 2개가 되고, paramter 수도 늘리고 여러 비율의 이미지를 생성할 수 있게 하였다(기존의 모델들은 정방형)
 
 # Evaluation
 
+## Inception Score
+
+Fidelity: 생성된 이미지가 특정 class를 높게 표현하는가? 생성된 이미지가 특정 클래스에 속할 확률(cross-entropy loss를 생각하면 쉽다!)
+
+Diversity: 다양한 class가 생성되고 있는지. 여러 생성된 image에 대해, 생성된 image들의 예측 클래스의 합이 균일해야 한다.
+
+Inception Score은 marginal 분포(Uniform)과의 KL Divergence를 통해 산출하고, 서로 다를수록 KL Divergence가 높다. 즉, 하나의 Label로만 inference되면(Fidelity에서) 제일 좋다는 것이다.
+
+## FID score
+
+원본 이미지와, 생성 image의 벡터간의 거리를(벡터는 pretrained Inception Network를 통해 구한다) cost로 구한다.
+
+거리는 프레쳇 거리(Frechet distance)로, 평균과 표준편차의 제곱합의 합으로 나타낸다.
+
+## CLIP Score
+
+Image와 Caption 사이의 상관관계를 평가하는 지표이다.
+
+CLIP을 사용한다.
+
+CLIP(Image)와 CLIP(Caption)을 한 embedding 사이의 cosine 유사도를 성능 지표로, 높을수록 좋은 지표이다.
