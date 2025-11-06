@@ -100,3 +100,27 @@ $\gamma \nabla_{x_t} logp_{\theta}(x_t|y) + (1-\gamma) \nabla_{x_t} logp(x_t)$ �
 Diffusion 학습 시, Image 자체에 noise를 추가하고 복원하는 것이 아니라
 
 encoder를 통해 추출된 저차원의 latent vector를 noise 추가하고 복원한다. 여기서도, Classifier-free guidance 방식을 통해 이미지 생성에 condition 반영 가능.(latent to latent로)
+
+
+# Stable Diffusion
+
+2022년 8월, Stability AI에서 발표한 Open-Source Text to Image 모델.
+
+LDM에서 일부 구조가 개선된 모델로, 대량의 이미지와 텍스트 쌍으로 학습되었다.
+
+LDM과 같이, Latent를 활용하는 Autoencoder 구조이고, U-net 구조를 통해 Noise를 Predict한다.(U-net의 Block은 Attention)
+
+또한, Noise Scheduler를 통해 얼마나 Noise한 latent를 만들지를 결정한다.
+
+위의 Noise Predict하는 U-net에, U-net Block의 Attention은 Text Encoder의 결과물인 Token embedding과의 Cross-Attention이다(Token embedding이 Key, Value)
+
+Text embedding을 하기 위해서는, CLIP Text Encoder를 사용.
+
+LDM에서는 BERT를 사용하였지만, Stable Diffusion에서는 CLIP Text Encoder로 발전된 Encoder를 사용한다.
+
+더 큰 언어모델(CLIP)을 사용하기에, 이미지 품질이 더 좋아졌다. 후속 SD2에서는 OpenCLIP(파라미터 수가 2배이다!)을 사용해 모델을 향상시켰다.
+
+# After SD
+
+# Evaluation
+
