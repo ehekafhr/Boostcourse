@@ -116,8 +116,58 @@ LoRA의 경우에는 이를 중간에 $r$ 차원으로 보내는 과정을 거�
 
 # sLLM models
 
+LLM 모델들에는 라이센스 문제가 있다.
+
+다른 소프트웨어를 활용하여 개발할 경우, 해당 소프트웨어 라이센스를 고려할 필요가 있다.
+
+예를 들어, MIT license(유료화 불가능) 소프트웨어를 활용한 소프트웨어는 유료화가 불가능하다.
+
+그렇기 떄문에, CC-BY-SA 4.0처럼 자유로운 복사, 배포, 유료화가 같은 라이센스가 있는지 먼저 확인해야 한다.
+
+모델을 학습하거나, Fientune할 때에 저작권이 존재하는 데이터셋을 사용하지 않도록 조심해야 한다.
+
+따라서, Open-Source LLM을 가져와서 내부 데이터로 학습시켜 사용하는 것이 좋다(GPT 등의 외부 API는 자료 유출의 위험이 크다)
+
 ## LLAMA
+
+Meta에서 공개한, 공개 사전학습 데이터를 이용한 Open-Source LLM.
+
+GPT-4보다는 성능이 떨어지지만, 모델의 Weight에 직접 접근 가능하다.
+
+Chinchilla Scaling Law: 데이터는 모델 parameter 수의 21.6배일 때 가장 성능이 좋다. 
+
+LLaMA는 추록 시 비용을 최소화하기 위해, 모델 사이즈를 줄여 Chinchilla Scaling Law를 위반하였다.
+
+LLaMA 1은 연구목적으로, LLaMA 2는 700억 건까지 상업 활용 가능하다. 
 
 ## ALPACA
 
+LLM을 활용하기 위한 Pretrain -> SFT -> RLHF의 학습은 굉장히 비싸다. 특히, 학습 데이터 구축 비용이 그러하다. Annotator만 해도 엄청나게 비싸다.
+
+그렇기 떄문에, GPT API를 활용한 Self-Instruct를 활용하여 Human Annotator 대비 적은 비용으로 Demonstration 데이터를 확보한다.
+
+### Self-Instruct
+
+초기 Pool은 human Annotation을 통해 Prompt-Answer Pair를 조금 만든다.
+
+이후, Human의 Prompt를 넣어 새로운 Instruction Input들을 만들어 준다.
+
+그리고, 그 새로운 Input에 대한 답변을 생성한다. 
+
+이러한 데이터를 이용해 SFT 학습을 진행한다. 사람이 Annotation하고 데이터를 생성하는 부분을 GPT API로 대체하는 것이다.
+
+### ALPACA
+
+이를 활용한 LLaMA SFT 학습 모델이다.  
+
+Alpaca 이후, 여러 가지 Open-Source LLm이 나왔고, 현재는 GPT-4와 큰 차이가 나지 않는 성능을 보이는 모델들도 있다.
+
 ## Metrics
+
+LLM의 평가 목적으로는 태스크 수행 능력과, 안전성이 있다.
+
+두 metric 모두 모호하기 떄문에, 여러 가지 데이터셋에 따라 다른 metric이 필요하다.
+
+MMLU는 LLM의 범용 태스크 수행 능력으로, 여러 가지 태스크에 대해 객관식 문제를 맞추는 것을 목표로 한다.
+
+이 외에도 코드 생성 능력, 문장 생성 능력(GPT를 통해 생성한 문장 평가) 등의 metric이 있다.
