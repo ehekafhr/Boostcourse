@@ -89,9 +89,9 @@ noise -> data로 가는 과정에서, score function $\delta_x logp_t(x)$ 를 $\
 
 이를 별도로 추가하고, 모든 step에 classifier를 넣어 주려면 굉장히 힘들기 때문에..
 
-$\delta_x_t logp(x_t|y)$ 를 
+$\delta_{x_t} logp(x_t|y)$ 를 
 
-$\gamma \delta_x_t logp_{\theta}(x_t|y) + (1-\gamma) \delta_x_t logp(x_t)$ 로 분해한다.
+$\gamma \delta_{x_t} logp_{\theta}(x_t|y) + (1-\gamma) \delta_{x_t} logp(x_t)$ 로 분해한다.
 
 왼쪽은 conditional score, 오른쪽은 unconditional score(class의 영향이 없는)으로 분해하여  class에 대한 가중치 $w$ 를 이용해 $\gamma$ = 1+w$ 로 정의하여 넣어준다.
 
